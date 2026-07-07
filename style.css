@@ -1,0 +1,600 @@
+/* =======================================================================
+   BALLOONS & TWISTERS — style.css
+   Semua visual menggunakan asset gambar yang tersedia di /assets.
+   CSS di sini hanya untuk layout, posisi, dan animasi — bukan pengganti
+   gambar asset.
+   ======================================================================= */
+
+@font-face { /* fallback noop, fonts loaded via <link> in head */ }
+
+:root{
+  --ink: #103a63;
+  --ink-soft: #1a3a63;
+  --cream: #fff8dc;
+  --panel: rgba(255,255,255,.85);
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-body: 'VT323', monospace;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body{
+  background-image: url('assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #bcdfff;
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button{
+  font-family: inherit;
+}
+
+img{
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+#app{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =======================================================================
+   SCREEN SYSTEM
+   ======================================================================= */
+
+.screen{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+  padding: 16px;
+}
+
+.screen.is-active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* generic re-playable button feel */
+.img-btn{
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+.img-btn img{
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform .15s ease, filter .15s ease;
+}
+.img-btn:hover img{
+  transform: scale(1.08);
+  filter: brightness(1.12);
+}
+.img-btn:active img{
+  transform: scale(.9);
+}
+.img-btn:disabled{ cursor: not-allowed; }
+.img-btn:disabled img{ filter: grayscale(.7) brightness(.8); transform:none; }
+
+/* =======================================================================
+   SCREEN 1 — MAIN MENU
+   ======================================================================= */
+
+.menu-stage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.title-img{
+  width: min(620px, 78vw);
+  filter: drop-shadow(0 10px 18px rgba(10,30,60,.35));
+}
+
+.anim-title{
+  transform-origin: center;
+  animation:
+    titleDrop .9s cubic-bezier(.2,.8,.2,1) both,
+    titlePulse 2.6s ease-in-out .9s infinite;
+}
+@keyframes titleDrop{
+  from{ opacity: 0; transform: translateY(-46px) scale(.92); }
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes titlePulse{
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+
+.play-btn{
+  width: min(150px, 26vw);
+  margin-top: 18px;
+}
+
+.anim-float{
+  animation: floaty 2.2s ease-in-out infinite;
+}
+@keyframes floaty{
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.hint-text{
+  margin-top: 10px;
+  color: var(--ink);
+  font-size: 1.3rem;
+  text-shadow: 0 0 8px rgba(255,255,255,.85), 0 0 2px #fff;
+}
+.blink{
+  animation: blink 1.6s steps(2, start) infinite;
+}
+@keyframes blink{ 50% { opacity: .2; } }
+
+/* =======================================================================
+   POPUP SYSTEM (pop-up_box.png based)
+   ======================================================================= */
+
+.popup{
+  position: relative;
+  width: min(620px, 90vw);
+  aspect-ratio: 1563 / 1157;
+  background-image: url('assets/pop-up_box.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 20px 26px rgba(8,20,40,.4));
+  animation: popIn .35s cubic-bezier(.2,.9,.25,1.25) both;
+}
+@keyframes popIn{
+  from{ opacity: 0; transform: scale(.8); }
+  to{ opacity: 1; transform: scale(1); }
+}
+
+.popup-titlebar{
+  position: absolute;
+  left: 12%;
+  right: 11%;
+  top: 6.5%;
+  height: 14%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.popup-title{
+  font-family: var(--font-pixel);
+  font-size: clamp(.62rem, 2.4vw, 1.05rem);
+  color: #fff6c8;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #1a3a63, -1px -1px 0 #1a3a63, 1px -1px 0 #1a3a63, -1px 1px 0 #1a3a63;
+  white-space: nowrap;
+}
+
+.popup-body{
+  position: absolute;
+  left: 12%;
+  right: 11%;
+  top: 23.5%;
+  bottom: 10.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.popup-body--scroll{
+  overflow-y: auto;
+  justify-content: flex-start;
+  padding-right: 6px;
+}
+.popup-body--scroll::-webkit-scrollbar{ width: 6px; }
+.popup-body--scroll::-webkit-scrollbar-thumb{ background: rgba(16,58,99,.4); border-radius: 4px; }
+
+.popup-info{ width: min(680px, 92vw); }
+
+/* =======================================================================
+   SCREEN 2 — SELECT OPPONENT
+   ======================================================================= */
+
+.opponent-list{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.opponent-btn{
+  width: min(230px, 74%);
+  transition: transform .15s ease, filter .15s ease;
+}
+.opponent-btn.selected{
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 16px #ffe066);
+}
+
+.back-btn--floating{
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: 62px;
+  z-index: 10;
+}
+
+/* =======================================================================
+   SCREEN 3 — SELECT PION
+   ======================================================================= */
+
+.pion-status{
+  font-family: var(--font-pixel);
+  font-size: clamp(.5rem, 2vw, .72rem);
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0 0 4px;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+}
+
+.pion-list{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pion-btn{
+  position: relative;
+  width: min(64px, 15vw);
+  transition: transform .15s ease, filter .15s ease;
+}
+.pion-btn img{ width: 100%; display: block; }
+.pion-check{
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: #2ecc71;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  opacity: 0;
+  transform: scale(0);
+  transition: all .2s ease;
+  border: 2px solid #fff;
+}
+.pion-btn.selected{
+  transform: translateY(-8px) scale(1.1);
+  filter: drop-shadow(0 0 10px #ffe066);
+}
+.pion-btn.selected .pion-check{
+  opacity: 1;
+  transform: scale(1);
+}
+.pion-btn.disabled{
+  opacity: .3;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+.pion-btn.picking{
+  animation: pickPulse .55s ease-in-out infinite;
+}
+@keyframes pickPulse{
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+/* =======================================================================
+   PIXEL BUTTONS (untuk elemen tanpa asset gambar khusus)
+   ======================================================================= */
+
+.pixel-btn{
+  font-family: var(--font-pixel);
+  font-size: clamp(.55rem, 2.1vw, .78rem);
+  color: var(--cream);
+  background: linear-gradient(180deg, #6fa3dd 0%, #2f5d99 100%);
+  border: 3px solid #14253f;
+  border-radius: 6px;
+  padding: 12px 18px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 #14253f;
+  box-shadow:
+    inset 0 -4px 0 rgba(0,0,0,.25),
+    inset 0 3px 0 rgba(255,255,255,.25),
+    0 4px 0 #14253f;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  white-space: nowrap;
+}
+.pixel-btn:hover{ filter: brightness(1.1); }
+.pixel-btn:active{
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 -2px 0 rgba(0,0,0,.25),
+    inset 0 2px 0 rgba(255,255,255,.2),
+    0 1px 0 #14253f;
+}
+.pixel-btn:disabled{
+  filter: grayscale(.6) brightness(.75);
+  cursor: not-allowed;
+  opacity: .65;
+  transform: none;
+}
+.pixel-btn--primary{
+  background: linear-gradient(180deg, #ffd24c 0%, #e08e1d 100%);
+  color: #3a2200;
+  text-shadow: 1px 1px 0 rgba(255,255,255,.45);
+}
+
+/* =======================================================================
+   SCREEN 4 — GAME PLAY
+   ======================================================================= */
+
+#screen-game{ justify-content: space-between; padding-top: 8px; padding-bottom: 8px; }
+
+.hud-top{
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 14px;
+  z-index: 30;
+  pointer-events: none;
+}
+.hud-top > *{ pointer-events: auto; }
+
+.turn-card{
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.6vw, 9px);
+  background: var(--panel);
+  border: 3px solid var(--ink-soft);
+  border-radius: 10px;
+  padding: clamp(5px, 1.1vw, 7px) clamp(9px, 2.6vw, 14px);
+  font-family: var(--font-pixel);
+  font-size: clamp(.46rem, 1.9vw, .72rem);
+  color: var(--ink-soft);
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+  transition: box-shadow .2s ease;
+}
+.turn-card.bot-turn{
+  box-shadow: 0 4px 10px rgba(0,0,0,.2), 0 0 0 3px rgba(255,200,60,.6);
+}
+.turn-pion-img{
+  width: clamp(20px, 5.6vw, 28px);
+  height: clamp(20px, 5.6vw, 28px);
+  object-fit: contain;
+}
+
+.icon-btn{ width: clamp(38px, 8.6vw, 52px); }
+.icon-btn-md{ width: clamp(42px, 9.6vw, 58px); }
+
+.board-wrap{
+  position: relative;
+  width: min(900px, 95vw, 66vh, 74vh);
+  aspect-ratio: 1216 / 1062;
+  margin: clamp(48px, 9vh, 66px) auto 0;
+}
+.board-img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+.pions-layer{
+  position: absolute;
+  inset: 0;
+}
+
+.pion-token{
+  position: absolute;
+  width: 8.4%;
+  transform: translate(-50%, -68%);
+  transition: left .28s ease, top .28s ease;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,.4));
+  z-index: 5;
+}
+.pion-token.jump{
+  transition: left .6s cubic-bezier(.32,-0.45,.6,1.35), top .6s cubic-bezier(.32,-0.45,.6,1.35);
+}
+.pion-token img{
+  width: 100%;
+  display: block;
+}
+
+.toast{
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  transform: translate(-50%, -14px);
+  background: rgba(14,28,52,.94);
+  color: #ffe9a8;
+  font-family: var(--font-pixel);
+  font-size: clamp(.5rem, 1.9vw, .78rem);
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 2px solid #ffe9a8;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+  text-align: center;
+  max-width: 84%;
+  z-index: 20;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+}
+.toast.show{
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.dice-dock{
+  position: relative;
+  margin-top: clamp(6px, 1.6vh, 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 30;
+}
+.dice-btn{
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.dice-btn img{
+  width: clamp(60px, 16vw, 88px);
+  display: block;
+  transition: transform .12s ease;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,.3));
+}
+.dice-btn:hover img{ transform: scale(1.08); }
+.dice-btn:active img{ transform: scale(.88); }
+.dice-btn.rolling img{ animation: diceRoll .09s linear infinite; }
+@keyframes diceRoll{
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(18deg) scale(1.1); }
+  100% { transform: rotate(-14deg) scale(1); }
+}
+
+.dice-btn.settle img{
+  animation: diceSettle .28s ease-out;
+}
+@keyframes diceSettle{
+  0%   { transform: scale(1.18) rotate(0deg); }
+  60%  { transform: scale(.94) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.dice-btn:disabled{ cursor: not-allowed; }
+.dice-btn:disabled img{ filter: drop-shadow(0 6px 8px rgba(0,0,0,.3)) grayscale(.5) brightness(.85); }
+
+.dice-hint{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: rgba(255,255,255,.75);
+  padding: 2px 12px;
+  border-radius: 6px;
+  font-size: clamp(.85rem, 2.2vw, 1.05rem);
+}
+
+/* =======================================================================
+   OVERLAYS — Setting / Info / Win
+   ======================================================================= */
+
+.overlay{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8,18,32,.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 100;
+  padding: 16px;
+}
+.overlay.is-active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.setting-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+.setting-row span{
+  font-family: var(--font-body);
+  font-size: clamp(.8rem, 2.3vw, 1.05rem);
+  color: var(--ink);
+}
+
+.rules-list{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: clamp(.85rem, 2.1vw, 1.05rem);
+  color: var(--ink);
+  text-align: left;
+}
+.rules-list li{ line-height: 1.4; }
+.rules-list strong{ color: var(--ink-soft); }
+
+.win-pion-img{
+  width: 64px;
+  margin-bottom: 4px;
+}
+.win-text{
+  font-family: var(--font-pixel);
+  color: var(--ink-soft);
+  font-size: clamp(.68rem, 2.4vw, 1rem);
+  text-align: center;
+  line-height: 1.5;
+  text-shadow: 1px 1px 0 #fff;
+  margin: 4px 0;
+}
+.win-sub{
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 2px 0 10px;
+  text-align: center;
+}
+
+/* =======================================================================
+   RESPONSIVE TWEAKS
+   ======================================================================= */
+
+@media (max-width: 480px){
+  .title-img{ width: 86vw; }
+  .play-btn{ width: 30vw; }
+  .opponent-btn{ width: 80%; }
+  .back-btn--floating{ width: 50px; left: 10px; bottom: 10px; }
+}
+
+@media (max-height: 700px){
+  .board-wrap{ width: min(880px, 94vw, 58vh); margin-top: clamp(42px, 8vh, 56px); }
+  .play-btn{ margin-top: 8px; }
+  .title-img{ width: min(620px, 60vh, 78vw); }
+  .dice-btn img{ width: clamp(50px, 13vw, 68px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .anim-float, .blink, .anim-title, .pion-btn.picking{ animation: none !important; }
+  .img-btn img, .pixel-btn, .pion-token{ transition: none !important; }
+}

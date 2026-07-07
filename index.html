@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Balloons &amp; Twisters - Ular Tangga Balon Udara &amp; Tornado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 1 : MAIN MENU                                          -->
+  <!-- ============================================================ -->
+  <section id="screen-menu" class="screen is-active">
+    <div class="menu-stage">
+      <img src="assets/title.png" alt="Balloons and Twisters" class="title-img anim-title" />
+      <button id="btn-play" class="img-btn play-btn anim-float" aria-label="Mulai Bermain">
+        <img src="assets/play.png" alt="Play" />
+      </button>
+      <span class="hint-text blink">Ketuk untuk mulai</span>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 2 : SELECT OPPONENT                                    -->
+  <!-- ============================================================ -->
+  <section id="screen-opponent" class="screen">
+    <div class="popup popup-opponent">
+      <div class="popup-titlebar"><span class="popup-title">SELECT OPPONENT</span></div>
+      <div class="popup-body">
+        <div class="opponent-list">
+          <button class="img-btn opponent-btn" data-mode="hvh" aria-label="Human vs Human">
+            <img src="assets/human_vs_human.png" alt="Human vs Human" />
+          </button>
+          <button class="img-btn opponent-btn" data-mode="hvb" aria-label="Human vs Bot">
+            <img src="assets/human_vs_bot.png" alt="Human vs Bot" />
+          </button>
+          <button class="img-btn opponent-btn" data-mode="bvb" aria-label="Bot vs Bot">
+            <img src="assets/bot_vs_bot.png" alt="Bot vs Bot" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <button class="img-btn back-btn back-btn--floating" id="btn-back-opponent" aria-label="Kembali">
+      <img src="assets/back.png" alt="Back" />
+    </button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 3 : SELECT PION                                        -->
+  <!-- ============================================================ -->
+  <section id="screen-pion" class="screen">
+    <div class="popup popup-pion">
+      <div class="popup-titlebar"><span class="popup-title">SELECT PION</span></div>
+      <div class="popup-body">
+        <p class="pion-status" id="pion-status">Pemain 1: Pilih Pion</p>
+        <div class="pion-list" id="pion-list">
+          <button class="img-btn pion-btn" data-color="red">
+            <img src="assets/red_pion.png" alt="Red Pion" />
+            <span class="pion-check">✓</span>
+          </button>
+          <button class="img-btn pion-btn" data-color="blue">
+            <img src="assets/blue_pion.png" alt="Blue Pion" />
+            <span class="pion-check">✓</span>
+          </button>
+          <button class="img-btn pion-btn" data-color="green">
+            <img src="assets/green_pion.png" alt="Green Pion" />
+            <span class="pion-check">✓</span>
+          </button>
+          <button class="img-btn pion-btn" data-color="yellow">
+            <img src="assets/yellow_pion.png" alt="Yellow Pion" />
+            <span class="pion-check">✓</span>
+          </button>
+        </div>
+        <button class="pixel-btn pixel-btn--primary" id="btn-start-game" disabled>START GAME</button>
+      </div>
+    </div>
+    <button class="img-btn back-btn back-btn--floating" id="btn-back-pion" aria-label="Kembali">
+      <img src="assets/back.png" alt="Back" />
+    </button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 4 : GAME PLAY                                          -->
+  <!-- ============================================================ -->
+  <section id="screen-game" class="screen">
+
+    <div class="hud-top">
+      <div class="turn-card" id="turn-card">
+        <img id="turn-pion-img" src="assets/red_pion.png" alt="" class="turn-pion-img" />
+        <span id="turn-label">Giliran: Pemain 1</span>
+      </div>
+      <button class="img-btn icon-btn" id="btn-setting" aria-label="Setting">
+        <img src="assets/setting.png" alt="Setting" />
+      </button>
+    </div>
+
+    <div class="board-wrap" id="board-wrap">
+      <img src="assets/gameboard.png" alt="Game Board" class="board-img" id="board-img" draggable="false" />
+      <div class="pions-layer" id="pions-layer"></div>
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <div class="dice-dock">
+      <button class="dice-btn" id="btn-dice" aria-label="Lempar Dadu">
+        <img src="assets/dice_1.png" id="dice-img" alt="Dice" />
+      </button>
+      <span class="dice-hint" id="dice-hint">Ketuk dadu untuk melempar</span>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- OVERLAY : SETTING POPUP                                       -->
+  <!-- ============================================================ -->
+  <div id="overlay-setting" class="overlay">
+    <div class="popup popup-setting">
+      <div class="popup-titlebar"><span class="popup-title">SETTING</span></div>
+      <div class="popup-body">
+        <div class="setting-row">
+          <button class="img-btn icon-btn-md" id="btn-resume" aria-label="Resume">
+            <img src="assets/play.png" alt="Resume" />
+          </button>
+          <span>LANJUTKAN PERMAINAN</span>
+        </div>
+        <div class="setting-row">
+          <button class="img-btn icon-btn-md" id="btn-music" aria-label="Music">
+            <img src="assets/mute.png" id="music-icon" alt="Music" />
+          </button>
+          <span>MUSIK</span>
+        </div>
+        <div class="setting-row">
+          <button class="img-btn icon-btn-md" id="btn-info" aria-label="Info">
+            <img src="assets/info.png" alt="Info" />
+          </button>
+          <span>CARA BERMAIN</span>
+        </div>
+        <div class="setting-row">
+          <button class="img-btn icon-btn-md" id="btn-exit" aria-label="Exit">
+            <img src="assets/back.png" alt="Exit" />
+          </button>
+          <span>KELUAR KE MENU</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- OVERLAY : INFO / RULES POPUP                                  -->
+  <!-- ============================================================ -->
+  <div id="overlay-info" class="overlay">
+    <div class="popup popup-info">
+      <div class="popup-titlebar"><span class="popup-title">CARA BERMAIN</span></div>
+      <div class="popup-body popup-body--scroll">
+        <ul class="rules-list">
+          <li><strong>Tujuan:</strong> jadilah pemain pertama yang mencapai kotak 100.</li>
+          <li><strong>Dadu:</strong> ketuk dadu untuk melempar. Pion bergerak sesuai angka dadu (1-6), kotak demi kotak.</li>
+          <li><strong>🎈 Balon Udara:</strong> berhenti di kotak balon udara akan membawa pionmu terbang naik ke kotak tujuan.</li>
+          <li><strong>🌪️ Tornado:</strong> berhenti di kotak tornado akan membuat pionmu tersapu turun ke kotak tujuan.</li>
+          <li><strong>Menang:</strong> pemain yang lebih dulu mendarat tepat di kotak 100 menjadi pemenang.</li>
+          <li><strong>Catatan:</strong> hasil dadu harus pas untuk mencapai kotak 100. Jika hasil dadu melebihi langkah yang dibutuhkan, pion akan maju hingga kotak 100 lalu memantul mundur sesuai sisa langkah.</li>
+        </ul>
+        <button class="pixel-btn" id="btn-info-close">TUTUP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- OVERLAY : WIN POPUP                                           -->
+  <!-- ============================================================ -->
+  <div id="overlay-win" class="overlay">
+    <div class="popup popup-win">
+      <div class="popup-titlebar"><span class="popup-title">GAME OVER</span></div>
+      <div class="popup-body">
+        <img id="win-pion-img" src="assets/red_pion.png" alt="" class="win-pion-img anim-float" />
+        <p class="win-text">CONGRATULATIONS<br/>YOU WIN!</p>
+        <p class="win-sub" id="win-sub-label">Pemain 1 Menang!</p>
+        <button class="pixel-btn pixel-btn--primary" id="btn-win-menu">MAIN LAGI</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<audio id="bgm"         src="assets/audio/background_music.mp3" loop preload="none"></audio>
+<audio id="awal-music" src="assets/audio/awal_music.mp3"      loop preload="auto"></audio>
+<audio id="sfx-dice"    src="assets/audio/dice_roll.mp3"      preload="auto"></audio>
+<audio id="sfx-move"    src="assets/audio/pion_move.mp3"      preload="auto"></audio>
+<audio id="sfx-balloon" src="assets/audio/ballon.mp3"         preload="auto"></audio>
+<audio id="sfx-tornado" src="assets/audio/tornado.mp3"        preload="auto"></audio>
+<audio id="sfx-win"     src="assets/audio/win.mp3"            preload="auto"></audio>
+<audio id="sfx-click"   src="assets/audio/button_click.mp3"   preload="auto"></audio>
+<audio id="sfx-pion"    src="assets/audio/pion_select.mp3"    preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
