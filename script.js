@@ -18,21 +18,6 @@
     el.play().catch(() => {});
   }
 
-  // Untuk efek suara yang bisa terpicu berkali-kali dengan sangat cepat
-  // (mis. pion_move per kotak), pakai node audio baru tiap panggilan supaya
-  // tidak saling memotong/menimpa di browser manapun.
-  function playSoundOverlap(id) {
-    const base = document.getElementById(id);
-    if (!base) return;
-    try {
-      const node = base.cloneNode(true);
-      node.volume = base.volume;
-      node.play().catch(() => {});
-    } catch (e) {
-      playSound(id);
-    }
-  }
-
   /* ---------------------------------------------------------------------
      KONSTANTA ATURAN PERMAINAN
      --------------------------------------------------------------------- */
@@ -278,6 +263,7 @@
       btns.forEach((b) => b.classList.remove('picking'));
       const chosen = remaining[Math.floor(Math.random() * remaining.length)];
       pickedColorsInOrder.push(chosen);
+      playSound('sfx-pion');
       document.querySelector(`.pion-btn[data-color="${chosen}"]`).classList.add('selected', 'taken');
       finalizePionSelection();
     }, 900);
@@ -297,12 +283,14 @@
       btn1.classList.remove('picking');
       btn1.classList.add('selected', 'taken');
       pickedColorsInOrder.push(c1);
+      playSound('sfx-pion');
     }, 550);
 
     setTimeout(() => {
       btn2.classList.remove('picking');
       btn2.classList.add('selected', 'taken');
       pickedColorsInOrder.push(c2);
+      playSound('sfx-pion');
       finalizePionSelection();
     }, 1050);
   }
@@ -549,7 +537,7 @@
       }
       stepsLeft -= 1;
       updatePionPositions(false);
-      playSoundOverlap('sfx-move');
+      playSound('sfx-move');
 
       if (stepsLeft <= 0 || (dir > 0 && p.position >= 100)) {
         callback();
@@ -641,12 +629,29 @@
 
   diceBtn.addEventListener('click', rollDice);
 
+  // Fitur tambahan: tekan tombol Enter untuk melempar dadu, setara dengan
+  // klik tombol dadu. Hanya berlaku saat layar permainan aktif dan tombol
+  // dadu memang sedang boleh ditekan (bukan giliran bot / tidak sedang jeda).
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    if (!document.getElementById('screen-game').classList.contains('is-active')) return;
+    if (diceBtn.disabled) return;
+    // Jika fokus sedang di tombol dadu, biarkan browser menangani Enter
+    // secara native supaya tidak terpicu dua kali.
+    if (document.activeElement === diceBtn) return;
+    e.preventDefault();
+    diceBtn.click();
+  });
+
   /* --- Menang --- */
 
   function endGameWin(playerIndex) {
     state.gameOver = true;
     state.busy = true;
     setDiceEnabled(false);
+
+    bgm.pause();
+    bgm.currentTime = 0;
 
     const p = state.players[playerIndex];
     document.getElementById('win-pion-img').src = `assets/${p.color}_pion.png`;

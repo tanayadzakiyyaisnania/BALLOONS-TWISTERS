@@ -47,7 +47,8 @@ img{
 #app{
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100vh;   /* fallback untuk browser lama */
+  height: 100svh;  /* svh = tinggi viewport TANPA area address bar HP, jadi konten tidak kepotong */
   overflow: hidden;
 }
 
@@ -372,13 +373,13 @@ img{
 .turn-card{
   display: flex;
   align-items: center;
-  gap: clamp(6px, 1.6vw, 9px);
+  gap: clamp(6px, 1.6vw, 8px);
   background: var(--panel);
   border: 3px solid var(--ink-soft);
   border-radius: 10px;
-  padding: clamp(5px, 1.1vw, 7px) clamp(9px, 2.6vw, 14px);
+  padding: clamp(4px, 1vw, 6px) clamp(8px, 2.4vw, 12px);
   font-family: var(--font-pixel);
-  font-size: clamp(.46rem, 1.9vw, .72rem);
+  font-size: clamp(.42rem, 1.7vw, .65rem);
   color: var(--ink-soft);
   box-shadow: 0 4px 10px rgba(0,0,0,.2);
   transition: box-shadow .2s ease;
@@ -387,19 +388,19 @@ img{
   box-shadow: 0 4px 10px rgba(0,0,0,.2), 0 0 0 3px rgba(255,200,60,.6);
 }
 .turn-pion-img{
-  width: clamp(20px, 5.6vw, 28px);
-  height: clamp(20px, 5.6vw, 28px);
+  width: clamp(18px, 5vw, 24px);
+  height: clamp(18px, 5vw, 24px);
   object-fit: contain;
 }
 
-.icon-btn{ width: clamp(38px, 8.6vw, 52px); }
-.icon-btn-md{ width: clamp(42px, 9.6vw, 58px); }
+.icon-btn{ width: clamp(34px, 8vw, 46px); }
+.icon-btn-md{ width: clamp(38px, 9vw, 52px); }
 
 .board-wrap{
   position: relative;
-  width: min(900px, 95vw, 66vh, 74vh);
+  width: min(820px, 92vw, 62svh);
   aspect-ratio: 1216 / 1062;
-  margin: clamp(48px, 9vh, 66px) auto 0;
+  margin: clamp(46px, 9svh, 64px) auto 0;
 }
 .board-img{
   position: absolute;
@@ -416,7 +417,7 @@ img{
 
 .pion-token{
   position: absolute;
-  width: 8.4%;
+  width: 7.4%;
   transform: translate(-50%, -68%);
   transition: left .28s ease, top .28s ease;
   filter: drop-shadow(0 4px 4px rgba(0,0,0,.4));
@@ -457,7 +458,7 @@ img{
 
 .dice-dock{
   position: relative;
-  margin-top: clamp(6px, 1.6vh, 10px);
+  margin-top: clamp(6px, 1.6svh, 10px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -471,7 +472,7 @@ img{
   padding: 0;
 }
 .dice-btn img{
-  width: clamp(60px, 16vw, 88px);
+  width: clamp(50px, 14vw, 72px);
   display: block;
   transition: transform .12s ease;
   filter: drop-shadow(0 6px 8px rgba(0,0,0,.3));
@@ -588,10 +589,22 @@ img{
 }
 
 @media (max-height: 700px){
-  .board-wrap{ width: min(880px, 94vw, 58vh); margin-top: clamp(42px, 8vh, 56px); }
+  .board-wrap{ width: min(820px, 92vw, 52svh); margin-top: clamp(40px, 8svh, 54px); }
   .play-btn{ margin-top: 8px; }
-  .title-img{ width: min(620px, 60vh, 78vw); }
-  .dice-btn img{ width: clamp(50px, 13vw, 68px); }
+  .title-img{ width: min(620px, 60svh, 78vw); }
+  .dice-btn img{ width: clamp(44px, 12vw, 60px); }
+}
+
+/* =======================================================================
+   KHUSUS LAYAR BESAR (LAPTOP/DESKTOP)
+   Papan diperbesar hanya saat lebar DAN tinggi layar cukup besar,
+   supaya tidak berpengaruh sama sekali ke formula di HP (min-width
+   dan min-height dua-duanya wajib terpenuhi, jadi HP tidak akan pernah
+   memicu rule ini walau layarnya diputar ke landscape).
+   ======================================================================= */
+@media (min-width: 1024px) and (min-height: 700px){
+  .board-wrap{ width: min(1000px, 74vw, 78svh); }
+  .title-img{ width: min(680px, 60vw); }
 }
 
 @media (prefers-reduced-motion: reduce){
