@@ -161,11 +161,7 @@ img{
 .popup{
   position: relative;
   width: min(620px, 90vw);
-  max-height: 90svh;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(14px, 4.5vw, 26px) 11% clamp(16px, 5vw, 30px) 12%;
+  aspect-ratio: 1563 / 1157;
   background-image: url('assets/pop-up_box.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -178,13 +174,15 @@ img{
 }
 
 .popup-titlebar{
-  flex: 0 0 auto;
-  min-height: clamp(30px, 9vw, 46px);
+  position: absolute;
+  left: 12%;
+  right: 11%;
+  top: 6.5%;
+  height: 14%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: clamp(8px, 2.5vw, 14px);
 }
 .popup-title{
   font-family: var(--font-pixel);
@@ -196,8 +194,11 @@ img{
 }
 
 .popup-body{
-  flex: 1 1 auto;
-  min-height: 0;
+  position: absolute;
+  left: 12%;
+  right: 11%;
+  top: 23.5%;
+  bottom: 10.5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -583,8 +584,17 @@ img{
 @media (max-width: 480px){
   .title-img{ width: 86vw; }
   .play-btn{ width: 30vw; }
-  .opponent-btn{ width: 80%; }
   .back-btn--floating{ width: 50px; left: 10px; bottom: 10px; }
+
+  /* Select Opponent: tombol & jarak diperkecil biar 3 tombol muat di kotak */
+  .opponent-btn{ width: clamp(80px, 23vw, 190px); }
+  .opponent-list{ gap: clamp(4px, 1.6vw, 10px); }
+
+  /* Setting: baris & ikon diperkecil biar 4 baris muat di kotak */
+  #overlay-setting .popup-body{ gap: clamp(4px, 1.6vw, 12px); }
+  .setting-row{ gap: clamp(6px, 2vw, 14px); }
+  .setting-row span{ font-size: clamp(.62rem, 2vw, 1.05rem); }
+  .icon-btn-md{ width: clamp(28px, 7vw, 52px); }
 }
 
 @media (max-height: 700px){
