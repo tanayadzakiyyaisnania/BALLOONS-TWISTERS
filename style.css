@@ -588,7 +588,7 @@ img{
   .back-btn--floating{ width: 50px; left: 10px; bottom: 10px; }
 
   /* Select Opponent: tombol & jarak diperkecil biar 3 tombol muat di kotak */
-  .opponent-btn{ width: clamp(80px, 23vw, 190px); }
+  .opponent-btn{ width: clamp(87px, calc(23vw + 7px), 197px); }
   .opponent-list{ gap: clamp(4px, 1.6vw, 10px); }
 
   /* Setting: baris & ikon diperkecil biar 4 baris muat di kotak */
