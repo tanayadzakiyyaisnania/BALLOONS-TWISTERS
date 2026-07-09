@@ -412,6 +412,9 @@
     const current = state.players[state.currentIndex];
     const allow = enabled && !state.paused && !state.gameOver && !state.busy && !current.isBot;
     diceBtn.disabled = !allow;
+    // Saat giliran bot (bukan karena pause/game over), dadu tetap tampil normal/berwarna,
+    // cuma tidak bisa diklik. Filter abu-abu cuma dipakai saat benar-benar dijeda/selesai.
+    diceBtn.classList.toggle('bot-turn-disabled', current.isBot && !state.paused && !state.gameOver);
     if (state.gameOver) {
       diceHint.textContent = 'Permainan selesai';
     } else if (state.paused) {

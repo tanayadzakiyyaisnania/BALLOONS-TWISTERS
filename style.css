@@ -496,6 +496,7 @@ img{
 }
 .dice-btn:disabled{ cursor: not-allowed; }
 .dice-btn:disabled img{ filter: drop-shadow(0 6px 8px rgba(0,0,0,.3)) grayscale(.5) brightness(.85); }
+.dice-btn.bot-turn-disabled:disabled img{ filter: drop-shadow(0 6px 8px rgba(0,0,0,.3)); }
 
 .dice-hint{
   font-family: var(--font-body);
@@ -612,8 +613,12 @@ img{
    memicu rule ini walau layarnya diputar ke landscape).
    ======================================================================= */
 @media (min-width: 1024px) and (min-height: 700px){
-  .board-wrap{ width: min(1000px, 74vw, 78svh); }
+  .board-wrap{
+    width: min(1200px, 82vw, calc((100svh - 230px) * 1.1452));
+    margin-top: clamp(20px, 4svh, 40px);
+  }
   .title-img{ width: min(680px, 60vw); }
+  .dice-btn img{ width: clamp(60px, 6vw, 90px); }
 }
 
 @media (prefers-reduced-motion: reduce){
