@@ -534,8 +534,9 @@ img{
   grid-template-columns: auto auto;
   column-gap: 14px;
   row-gap: 12px;
-  justify-content: center;
+  justify-content: start;
   align-content: center;
+  padding-left: 7px;
 }
 .setting-row{
   display: contents;
