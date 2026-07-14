@@ -12,6 +12,7 @@
      --------------------------------------------------------------------- */
 
   function playSound(id) {
+    if (isMuted) return;
     const el = document.getElementById(id);
     if (!el) return;
     el.currentTime = 0;
@@ -72,6 +73,7 @@
   let pionLocked = false;        // mengunci klik saat bot sedang "memilih"
 
   let musicPlaying = false;
+  let isMuted = false; // master switch: mematikan musik DAN semua efek suara (dadu, klik, dll.)
 
   /* ---------------------------------------------------------------------
      UTIL: HITUNG POSISI KOTAK PADA PAPAN (dalam persen)
@@ -459,7 +461,7 @@
     const totalTicks = Math.max(6, Math.round(totalDurationMs / DICE_TICK_MS));
     const tickIntervalMs = totalDurationMs / totalTicks;
 
-    if (sfxDice) {
+    if (sfxDice && !isMuted) {
       sfxDice.currentTime = 0;
       sfxDice.play().catch(() => {});
     }
@@ -723,7 +725,7 @@
   const musicIcon = document.getElementById('music-icon');
 
   function tryAutoplayAwalMusic() {
-    if (!awalMusic) return;
+    if (!awalMusic || isMuted) return;
     awalMusic.volume = 0.5;
     const playPromise = awalMusic.play();
     if (playPromise && typeof playPromise.catch === 'function') {
@@ -740,10 +742,13 @@
   }
 
   function setMusicIcon() {
-    musicIcon.src = musicPlaying ? 'assets/mute.png' : 'assets/unmute.png';
+    // Saat ada suara (tidak mute) -> tampilkan ikon unmute.png (menandakan suara sedang aktif).
+    // Saat mute -> tampilkan ikon mute.png. Klik tombol akan membalik status ini.
+    musicIcon.src = isMuted ? 'assets/mute.png' : 'assets/unmute.png';
   }
 
   function tryAutoplayMusic() {
+    if (isMuted) { musicPlaying = false; setMusicIcon(); return; }
     bgm.volume = 0.5;
     const playPromise = bgm.play();
     if (playPromise && typeof playPromise.then === 'function') {
@@ -762,15 +767,26 @@
   }
 
   document.getElementById('btn-music').addEventListener('click', () => {
-    musicPlaying = !musicPlaying;
-    if (musicPlaying) {
-      bgm.volume = 0.5;
-      const p = bgm.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(() => { musicPlaying = false; setMusicIcon(); });
-      }
-    } else {
+    // Tombol ini adalah master mute: mematikan/menghidupkan musik LATAR
+    // sekaligus semua efek suara (dadu, klik tombol, dll).
+    isMuted = !isMuted;
+    if (isMuted) {
       bgm.pause();
+      if (awalMusic) awalMusic.pause();
+      musicPlaying = false;
+    } else {
+      const menuScreen = document.getElementById('screen-menu');
+      const gameScreen = document.getElementById('screen-game');
+      if (gameScreen && gameScreen.classList.contains('is-active')) {
+        bgm.volume = 0.5;
+        const p = bgm.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => { musicPlaying = true; setMusicIcon(); })
+            .catch(() => { musicPlaying = false; setMusicIcon(); });
+        }
+      } else if (menuScreen && menuScreen.classList.contains('is-active')) {
+        tryAutoplayAwalMusic();
+      }
     }
     setMusicIcon();
   });
