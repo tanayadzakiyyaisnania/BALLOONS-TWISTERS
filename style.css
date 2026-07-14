@@ -587,18 +587,15 @@ img{
   .play-btn{ width: 30vw; }
   .back-btn--floating{ width: 50px; left: 10px; bottom: 10px; }
 
-  /* Select Opponent: tombol H vs H / H vs B / B vs B diperbesar */
-  .opponent-btn{ width: clamp(105px, calc(27vw + 10px), 220px); }
+  /* Select Opponent: tombol & jarak diperkecil biar 3 tombol muat di kotak */
+  .opponent-btn{ width: clamp(87px, calc(23vw + 7px), 197px); }
   .opponent-list{ gap: clamp(4px, 1.6vw, 10px); }
 
   /* Setting: baris & ikon diperkecil biar 4 baris muat di kotak */
   #overlay-setting .popup-body{ gap: clamp(4px, 1.6vw, 12px); }
-  .setting-row{ gap: clamp(6px, 2vw, 14px); justify-content: center; }
+  .setting-row{ gap: clamp(6px, 2vw, 14px); }
   .setting-row span{ font-size: clamp(.62rem, 2vw, 1.05rem); }
-  .icon-btn-md{ width: clamp(34px, 8.5vw, 52px); }
-
-  /* Tombol setting (ikon gear) di HUD game diperbesar */
-  .icon-btn{ width: clamp(44px, 11vw, 56px); }
+  .icon-btn-md{ width: clamp(28px, 7vw, 52px); }
 }
 
 @media (max-height: 700px){
@@ -617,15 +614,11 @@ img{
    ======================================================================= */
 @media (min-width: 1024px) and (min-height: 700px){
   .board-wrap{
-    width: min(1300px, 88vw, calc((100svh - 205px) * 1.1452));
-    margin-top: clamp(16px, 3svh, 32px);
+    width: min(1200px, 82vw, calc((100svh - 230px) * 1.1452));
+    margin-top: clamp(20px, 4svh, 40px);
   }
   .title-img{ width: min(680px, 60vw); }
   .dice-btn img{ width: clamp(60px, 6vw, 90px); }
-
-  /* Naikkan sedikit tombol play & teks "Ketuk untuk mulai" di layar besar */
-  .play-btn{ margin-top: 4px; }
-  .hint-text{ margin-top: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce){
