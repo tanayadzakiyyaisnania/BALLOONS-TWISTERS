@@ -1,15 +1,11 @@
-/* =======================================================================
-   BALLOONS & TWISTERS — script.js
+/* BALLOONS & TWISTERS — script.js
    Game ular tangga dengan tema Balon Udara (naik) & Tornado (turun).
-   Semua aset visual berasal dari folder assets/ (tidak ada gambar baru).
-   ======================================================================= */
+   Semua aset visual berasal dari folder assets/ (tidak ada gambar baru). */
 
 (function () {
   'use strict';
 
-  /* ---------------------------------------------------------------------
-     SOUND HELPER
-     --------------------------------------------------------------------- */
+  /* SOUND HELPER */
 
   function playSound(id) {
     if (isMuted) return;
@@ -19,9 +15,7 @@
     el.play().catch(() => {});
   }
 
-  /* ---------------------------------------------------------------------
-     KONSTANTA ATURAN PERMAINAN
-     --------------------------------------------------------------------- */
+  /* KONSTANTA ATURAN PERMAINAN */
 
   // Kotak Balon Udara (berfungsi seperti tangga -> naik)
   const BALLOONS = { 3: 22, 10: 31, 46: 76, 52: 94 };
@@ -51,9 +45,7 @@
   const BOT_THINK_MS = 1100;
   const BOUNCE_PAUSE_MS = 260; // jeda singkat sebelum pion memantul mundur ke belakang
 
-  /* ---------------------------------------------------------------------
-     STATE GLOBAL
-     --------------------------------------------------------------------- */
+  /* STATE GLOBAL */
 
   const state = {
     mode: null,          // 'hvh' | 'hvb' | 'bvb'
@@ -75,9 +67,7 @@
   let musicPlaying = false;
   let isMuted = false; // master switch: mematikan musik DAN semua efek suara (dadu, klik, dll.)
 
-  /* ---------------------------------------------------------------------
-     UTIL: HITUNG POSISI KOTAK PADA PAPAN (dalam persen)
-     --------------------------------------------------------------------- */
+  /* UTIL: HITUNG POSISI KOTAK PADA PAPAN (dalam persen) */
 
   function cellPosition(n, slotIndex, totalSlots) {
     const idx0 = n - 1;
@@ -107,9 +97,7 @@
     return groups;
   }
 
-  /* ---------------------------------------------------------------------
-     NAVIGASI ANTAR HALAMAN
-     --------------------------------------------------------------------- */
+  /* NAVIGASI ANTAR HALAMAN */
 
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('is-active'));
@@ -140,9 +128,7 @@
     document.getElementById(id).classList.remove('is-active');
   }
 
-  /* ---------------------------------------------------------------------
-     HALAMAN 1: MAIN MENU
-     --------------------------------------------------------------------- */
+  /* HALAMAN 1: MAIN MENU */
 
   const btnPlay = document.getElementById('btn-play');
   btnPlay.addEventListener('click', () => {
@@ -153,9 +139,7 @@
     showScreen('screen-opponent');
   });
 
-  /* ---------------------------------------------------------------------
-     HALAMAN 2: SELECT OPPONENT
-     --------------------------------------------------------------------- */
+  /* HALAMAN 2: SELECT OPPONENT */
 
   let opponentTransitioning = false;
 
@@ -182,9 +166,7 @@
     showScreen('screen-menu');
   });
 
-  /* ---------------------------------------------------------------------
-     HALAMAN 3: SELECT PION
-     --------------------------------------------------------------------- */
+  /* HALAMAN 3: SELECT PION */
 
   const pionStatusEl = document.getElementById('pion-status');
   const btnStartGame = document.getElementById('btn-start-game');
@@ -318,9 +300,7 @@
     startGame();
   });
 
-  /* ---------------------------------------------------------------------
-     HALAMAN 4: GAME PLAY
-     --------------------------------------------------------------------- */
+  /* HALAMAN 4: GAME PLAY */
 
   const pionsLayer = document.getElementById('pions-layer');
   const toastEl = document.getElementById('toast');
@@ -679,9 +659,7 @@
     state.busy = false;
   }
 
-  /* ---------------------------------------------------------------------
-     SETTING POPUP (pause, music, info, exit)
-     --------------------------------------------------------------------- */
+  /* SETTING POPUP (pause, music, info, exit) */
 
   document.getElementById('btn-setting').addEventListener('click', () => {
     if (state.gameOver) return;
@@ -799,9 +777,7 @@
 
   setMusicIcon();
 
-  /* ---------------------------------------------------------------------
-     INISIALISASI
-     --------------------------------------------------------------------- */
+  /* INISIALISASI */
 
   showScreen('screen-menu');
 

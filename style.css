@@ -1,9 +1,9 @@
-/* =======================================================================
+/* 
    BALLOONS & TWISTERS — style.css
    Semua visual menggunakan asset gambar yang tersedia di /assets.
    CSS di sini hanya untuk layout, posisi, dan animasi — bukan pengganti
    gambar asset.
-   ======================================================================= */
+    */
 
 @font-face { /* fallback noop, fonts loaded via <link> in head */ }
 
@@ -52,9 +52,9 @@ img{
   overflow: hidden;
 }
 
-/* =======================================================================
+/* 
    SCREEN SYSTEM
-   ======================================================================= */
+    */
 
 .screen{
   position: absolute;
@@ -99,9 +99,9 @@ img{
 .img-btn:disabled{ cursor: not-allowed; }
 .img-btn:disabled img{ filter: grayscale(.7) brightness(.8); transform:none; }
 
-/* =======================================================================
+/* 
    SCREEN 1 — MAIN MENU
-   ======================================================================= */
+    */
 
 .menu-stage{
   display: flex;
@@ -154,9 +154,9 @@ img{
 }
 @keyframes blink{ 50% { opacity: .2; } }
 
-/* =======================================================================
+/* 
    POPUP SYSTEM (pop-up_box.png based)
-   ======================================================================= */
+    */
 
 .popup{
   position: relative;
@@ -215,9 +215,9 @@ img{
 
 .popup-info{ width: min(680px, 92vw); }
 
-/* =======================================================================
+/* 
    SCREEN 2 — SELECT OPPONENT
-   ======================================================================= */
+    */
 
 .opponent-list{
   display: flex;
@@ -243,9 +243,9 @@ img{
   z-index: 10;
 }
 
-/* =======================================================================
+/* 
    SCREEN 3 — SELECT PION
-   ======================================================================= */
+    */
 
 .pion-status{
   font-family: var(--font-pixel);
@@ -309,9 +309,9 @@ img{
   50% { transform: scale(1.12); }
 }
 
-/* =======================================================================
+/* 
    PIXEL BUTTONS (untuk elemen tanpa asset gambar khusus)
-   ======================================================================= */
+    */
 
 .pixel-btn{
   font-family: var(--font-pixel);
@@ -350,9 +350,9 @@ img{
   text-shadow: 1px 1px 0 rgba(255,255,255,.45);
 }
 
-/* =======================================================================
+/* 
    SCREEN 4 — GAME PLAY
-   ======================================================================= */
+    */
 
 #screen-game{ justify-content: space-between; padding-top: 8px; padding-bottom: 8px; }
 
@@ -507,9 +507,9 @@ img{
   font-size: clamp(.85rem, 2.2vw, 1.05rem);
 }
 
-/* =======================================================================
+/* 
    OVERLAYS — Setting / Info / Win
-   ======================================================================= */
+    */
 
 .overlay{
   position: fixed;
@@ -586,25 +586,25 @@ img{
   text-align: center;
 }
 
-/* =======================================================================
+/* 
    RESPONSIVE TWEAKS
-   ======================================================================= */
+    */
 
 @media (max-width: 480px){
   .title-img{ width: 86vw; }
   .play-btn{ width: 30vw; }
   .back-btn--floating{ width: 50px; left: 10px; bottom: 10px; }
 
-  /* Select Opponent: tombol H vs H / H vs B / B vs B diperbesar */
+  /* Select Opponent: tombol H vs H / H vs B / B vs B ukuran*/
   .opponent-btn{ width: clamp(105px, calc(27vw + 10px), 220px); }
   .opponent-list{ gap: clamp(4px, 1.6vw, 10px); }
 
-  /* Setting: baris & ikon diperkecil biar 4 baris muat di kotak */
+  /* Setting: baris & ikon ukuran */
   #overlay-setting .popup-body{ column-gap: clamp(6px, 2vw, 14px); row-gap: clamp(4px, 1.6vw, 12px); }
   .setting-row span{ font-size: clamp(.62rem, 2vw, 1.05rem); }
   .icon-btn-md{ width: clamp(34px, 8.5vw, 52px); }
 
-  /* Tombol setting (ikon gear) di HUD game diperbesar */
+  /* Tombol setting (ikon gear) di HUD game ukuran */
   .icon-btn{ width: clamp(44px, 11vw, 56px); }
 }
 
@@ -615,13 +615,13 @@ img{
   .dice-btn img{ width: clamp(44px, 12vw, 60px); }
 }
 
-/* =======================================================================
+/* 
    KHUSUS LAYAR BESAR (LAPTOP/DESKTOP)
    Papan diperbesar hanya saat lebar DAN tinggi layar cukup besar,
    supaya tidak berpengaruh sama sekali ke formula di HP (min-width
    dan min-height dua-duanya wajib terpenuhi, jadi HP tidak akan pernah
    memicu rule ini walau layarnya diputar ke landscape).
-   ======================================================================= */
+    */
 @media (min-width: 1024px) and (min-height: 700px){
   .board-wrap{
     width: min(1300px, 88vw, calc((100svh - 205px) * 1.1452));
