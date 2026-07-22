@@ -1,6 +1,5 @@
 /* BALLOONS & TWISTERS — script.js
-   Game ular tangga dengan tema Balon Udara (naik) & Tornado (turun).
-   Semua aset visual berasal dari folder assets/ (tidak ada gambar baru). */
+   Game ular tangga dengan tema Balon Udara (naik) & Tornado (turun).*/
 
 (function () {
   'use strict';
@@ -628,8 +627,7 @@
     diceBtn.click();
   });
 
-  /* --- Menang --- */
-
+  /*  Menang  */
   function endGameWin(playerIndex) {
     state.gameOver = true;
     state.busy = true;
@@ -696,7 +694,7 @@
     openOverlay('overlay-setting');
   });
 
-  /* --- Musik --- */
+  /*  Musik  */
 
   const bgm = document.getElementById('bgm');
   const awalMusic = document.getElementById('awal-music');
@@ -770,7 +768,6 @@
   });
 
   bgm.addEventListener('error', () => {
-    // File belum tersedia (placeholder) — abaikan agar game tetap berjalan.
     musicPlaying = false;
     setMusicIcon();
   });

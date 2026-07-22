@@ -47,8 +47,8 @@ img{
 #app{
   position: relative;
   width: 100vw;
-  height: 100vh;   /* fallback untuk browser lama */
-  height: 100svh;  /* svh = tinggi viewport TANPA area address bar HP, jadi konten tidak kepotong */
+  height: 100vh;   
+  height: 100svh;  
   overflow: hidden;
 }
 
@@ -99,10 +99,7 @@ img{
 .img-btn:disabled{ cursor: not-allowed; }
 .img-btn:disabled img{ filter: grayscale(.7) brightness(.8); transform:none; }
 
-/* 
-   SCREEN 1 — MAIN MENU
-    */
-
+/* SCREEN 1 — MAIN MENU */
 .menu-stage{
   display: flex;
   flex-direction: column;
@@ -154,9 +151,7 @@ img{
 }
 @keyframes blink{ 50% { opacity: .2; } }
 
-/* 
-   POPUP SYSTEM (pop-up_box.png based)
-    */
+/* POPUP SYSTEM (pop-up_box.png based) */
 
 .popup{
   position: relative;
@@ -215,9 +210,7 @@ img{
 
 .popup-info{ width: min(680px, 92vw); }
 
-/* 
-   SCREEN 2 — SELECT OPPONENT
-    */
+/* SCREEN 2 — SELECT OPPONENT */
 
 .opponent-list{
   display: flex;
@@ -243,9 +236,7 @@ img{
   z-index: 10;
 }
 
-/* 
-   SCREEN 3 — SELECT PION
-    */
+/* SCREEN 3 — SELECT PION */
 
 .pion-status{
   font-family: var(--font-pixel);
@@ -309,9 +300,7 @@ img{
   50% { transform: scale(1.12); }
 }
 
-/* 
-   PIXEL BUTTONS (untuk elemen tanpa asset gambar khusus)
-    */
+/* PIXEL BUTTONS (untuk elemen tanpa asset gambar khusus) */
 
 .pixel-btn{
   font-family: var(--font-pixel);
@@ -350,9 +339,7 @@ img{
   text-shadow: 1px 1px 0 rgba(255,255,255,.45);
 }
 
-/* 
-   SCREEN 4 — GAME PLAY
-    */
+/* SCREEN 4 — GAME PLAY */
 
 #screen-game{ justify-content: space-between; padding-top: 8px; padding-bottom: 8px; }
 
@@ -507,9 +494,7 @@ img{
   font-size: clamp(.85rem, 2.2vw, 1.05rem);
 }
 
-/* 
-   OVERLAYS — Setting / Info / Win
-    */
+/* OVERLAYS — Setting / Info / Win */
 
 .overlay{
   position: fixed;
@@ -586,9 +571,7 @@ img{
   text-align: center;
 }
 
-/* 
-   RESPONSIVE TWEAKS
-    */
+/* RESPONSIVE TWEAKS */
 
 @media (max-width: 480px){
   .title-img{ width: 86vw; }
@@ -615,13 +598,6 @@ img{
   .dice-btn img{ width: clamp(44px, 12vw, 60px); }
 }
 
-/* 
-   KHUSUS LAYAR BESAR (LAPTOP/DESKTOP)
-   Papan diperbesar hanya saat lebar DAN tinggi layar cukup besar,
-   supaya tidak berpengaruh sama sekali ke formula di HP (min-width
-   dan min-height dua-duanya wajib terpenuhi, jadi HP tidak akan pernah
-   memicu rule ini walau layarnya diputar ke landscape).
-    */
 @media (min-width: 1024px) and (min-height: 700px){
   .board-wrap{
     width: min(1300px, 88vw, calc((100svh - 205px) * 1.1452));
